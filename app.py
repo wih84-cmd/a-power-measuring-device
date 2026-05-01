@@ -2,7 +2,6 @@ import streamlit as st
 from abc import ABC, abstractmethod
 
 # --- 1. 인터페이스 설계 (규칙 만들기) ---
-# 로봇의 전기를 쓰는 모든 부품은 반드시 이 규칙을 따라야 합니다.
 class PowerConsumer(ABC):
     @abstractmethod
     def get_name(self) -> str:
@@ -65,14 +64,12 @@ with col3:
 st.divider()
 
 # --- 4. 다형성(Polymorphism)을 활용한 계산 ---
-# 각각의 객체를 생성하여 리스트에 담습니다.
 parts = [
     Motor120(count_120),
     Motor300(count_300),
     ServoMotor(count_servo)
 ]
 
-# 인터페이스를 활용하면, 부품 종류가 달라도 똑같은 메서드(get_current)로 한 번에 처리할 수 있습니다!
 total_current = sum(part.get_current() for part in parts)
 total_power = total_current * 6  # 6V 기준 전력
 
@@ -111,4 +108,8 @@ html_str = f"""
     
     <p style="font-size: 16px;">{status}</p>
     <p style="font-size: 14px; color: #666;">- 현재 전력: <b>{total_power:.1f} W</b> / 전류: <b>{total_current:.2f} A</b></p>
-    <h3 style="color: #e91e63;">⏳
+    <h3 style="color: #e91e63;">⏳ 예상 수명: 약 {mins:.1f} 분</h3>
+</div>
+"""
+
+st.markdown(html_str, unsafe_allow_html=True)
